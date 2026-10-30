@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="IMECE2026-198098: recovering commercial UAV propeller twist from wind-tunnel curves. All 27 propeller recoveries and paper sign-up.">
+<meta property="og:title" content="Wind-tunnel curves reveal a propeller’s twist">
+<meta property="og:description" content="27 commercial propellers, twist recovered to 0.62° median. IMECE 2026, paper 198098.">
+<meta property="og:image" content="img/drone.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23130AC0%27/%3E%3Cellipse cx=%2716%27 cy=%2716%27 rx=%2713%27 ry=%273.2%27 fill=%27white%27 transform=%27rotate(-30 16 16)%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%273.2%27 fill=%27%23130AC0%27 stroke=%27white%27 stroke-width=%271.5%27/%3E%3C/svg%3E">
+<title>27 Propellers Recovered</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0}
+img{max-width:100%}
+/* Layout: a companion to the printed poster. Single light look, in the poster's ultramarine.
+   Hero with the claim, then the 27-propeller explorer laid out as the catalogue itself (diameter x pitch),
+   then the sign-up. One column on phones, two on desktop. */
+:root{
+  --paper:#F3F5FB; --card:#FFFFFF; --ink:#141436; --muted:#565C78; --rule:#D8DCEB;
+  --blue:#130AC0; --blue-soft:#E4E6FB; --red:#B8352A;
+  --display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --body:"Public Sans",Arial,Helvetica,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+html{background:var(--paper)}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1120px;margin:0 auto;padding-block:20px 56px;display:flex;flex-direction:column;gap:40px}
+a{color:var(--blue)}
+[hidden]{display:none!important}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.tag{font-family:var(--mono);font-size:12.5px;letter-spacing:.04em;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 14px}
+.tag b{color:var(--blue);font-weight:600}
+
+.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px;align-items:center}
+.hero h1{font-family:var(--display);font-stretch:80%;font-weight:800;font-size:clamp(34px,6.2vw,64px);line-height:1.02;
+  letter-spacing:-.01em;margin:10px 0 16px;text-wrap:balance}
+.hero h1 em{font-style:normal;color:var(--blue)}
+.lede{font-size:18px;max-width:36em;margin:0}
+.lede strong{font-family:var(--mono);font-weight:600;font-size:16.5px}
+.hero img{width:100%;height:auto;display:block}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.btn{font:600 15px/1 var(--body);border-radius:6px;padding:13px 18px;text-decoration:none;border:2px solid var(--blue);cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.btn.primary{background:var(--blue);color:#fff}
+.btn.ghost{background:transparent;color:var(--blue)}
+.btn[aria-disabled="true"]{opacity:.55;cursor:default}
+
+h2{font-family:var(--display);font-stretch:85%;font-weight:750;font-size:clamp(24px,3.4vw,34px);line-height:1.1;margin:0 0 6px;text-wrap:balance}
+.sub{color:var(--muted);margin:0;max-width:44em}
+
+.explorer{display:grid;grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:28px;align-items:start}
+.gridbox{overflow-x:auto}
+table.cat{border-collapse:separate;border-spacing:4px;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.cat th{font-weight:600;font-size:12px;color:var(--muted);text-align:center;padding:0 0 2px}
+.cat th.row{text-align:right;padding-right:6px;white-space:nowrap}
+.cat td{padding:0}
+.cell{width:38px;height:44px;border-radius:5px;border:0;font:600 12px/1 var(--mono);cursor:pointer;position:relative;display:flex;align-items:center;justify-content:center}
+.cell[aria-pressed="true"]{outline:3px solid var(--ink);outline-offset:1px}
+.cell .multi{position:absolute;top:3px;right:3px;width:7px;height:7px;border-radius:50%;background:#FFB020;box-shadow:0 0 0 1.5px #fff}
+.empty{width:38px;height:44px}
+.legend{display:flex;flex-direction:column;gap:8px;margin-top:12px;font-size:13px;color:var(--muted)}
+.ramp{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px}
+.ramp span.bar{flex:0 0 150px;height:10px;border-radius:3px;background:linear-gradient(90deg,#130AC0,#7C7AE0,#E7E8FB)}
+.dotkey{display:flex;align-items:center;gap:8px}
+.dotkey i{width:9px;height:9px;border-radius:50%;background:#FFB020;display:inline-block}
+
+.detail{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.detail h3{font-family:var(--display);font-stretch:80%;font-weight:800;font-size:40px;line-height:1;margin:0}
+.detail h3 small{font-family:var(--body);font-stretch:100%;font-weight:400;font-size:15px;color:var(--muted);margin-left:8px}
+dl.stats{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 18px;margin:0;font-size:15px}
+dl.stats dt{color:var(--muted)}
+dl.stats dd{margin:0;font-family:var(--mono);font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+dl.stats dd.good{color:var(--blue)} dl.stats dd.bad{color:var(--red)}
+dl.stats .sep{grid-column:1/-1;border-top:1px solid var(--rule)}
+.fig{overflow-x:auto}
+.fig img{width:100%;min-width:560px;height:auto;display:block;border-radius:4px}
+.cap{font-size:13.5px;color:var(--muted);margin:0}
+
+.limits{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+.limits p{margin:6px 0 0}
+.limits h2{font-size:clamp(21px,2.6vw,26px)}
+.limits .chord h2{color:var(--red)}
+
+.connect{background:var(--blue);color:#fff;border-radius:12px;padding:28px max(20px,3vw);display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:24px;align-items:center}
+.connect h2{color:#fff}
+.connect p{margin:0;color:#DADCFA}
+.connect .btn.primary{background:#fff;color:var(--blue);border-color:#fff}
+.connect .btn.ghost{color:#fff;border-color:#B9BCF3}
+.contact{display:flex;flex-direction:column;gap:10px}
+.mail{font-family:var(--mono);font-size:14px;background:rgba(255,255,255,.12);border-radius:6px;padding:10px 12px;user-select:all;word-break:break-all}
+.copied{font-size:13px;color:#DADCFA;min-height:1.2em}
+
+footer{border-top:1px solid var(--rule);padding-top:18px;font-size:13.5px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+footer b{color:var(--ink)}
+
+@media (max-width:820px){
+  .hero,.explorer,.limits,.connect{grid-template-columns:minmax(0,1fr)}
+  .hero img{max-width:520px;margin:0 auto}
+  .detail h3{font-size:34px}
+}
+@media (max-width:480px){.cell,.empty{width:33px;height:40px}.cell{font-size:11px}table.cat{border-spacing:3px}}
+@media (prefers-reduced-motion:no-preference){.cell{transition:transform .12s}.cell:hover{transform:translateY(-2px)}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="tag"><span><b>IMECE2026-198098</b></span><span>Advances in Aerospace Technology</span><span>ASME IMECE 2026</span></div>
+    <div class="hero">
+      <div>
+        <h1>Wind-tunnel curves reveal a propeller’s <em>twist</em></h1>
+        <p class="lede">We hid each of 27 commercial APC propellers in turn and rebuilt its blade from its measured thrust and efficiency curves alone. Twist came back within <strong>0.62°</strong> (median), closer than the best same-diameter catalogue blade for <strong>27 of 27</strong>.</p>
+        <div class="actions">
+          <a class="btn primary" id="formBtn" href="#" target="_blank" rel="noopener">Get the journal paper</a>
+          <a class="btn ghost" href="#explore">Explore all 27</a>
+        </div>
+      </div>
+      <img src="img/drone.png" alt="Rendering of a quadcopter fitted with four recovered 11×4 propellers" width="1400" height="630">
+    </div>
+  </header>
+
+  <section id="explore" aria-labelledby="ex-h">
+    <h2 id="ex-h">All 27 propellers</h2>
+    <p class="sub">The grid is the catalogue: diameter down, pitch across. Each cell shows the twist error when that propeller was hidden from the model and recovered. Pick one to see its result.</p>
+    <div class="explorer" style="margin-top:18px">
+      <div>
+        <div class="gridbox"><table class="cat" id="cat" aria-label="Twist error by diameter and pitch"></table></div>
+        <div class="legend">
+          <div class="ramp"><span>0.1°</span><span class="bar" aria-hidden="true"></span><span>1.8°</span><span>twist error</span></div>
+          <div class="dotkey"><i aria-hidden="true"></i>two or more equally good blades (5 of 27)</div>
+        </div>
+      </div>
+      <article class="detail" id="detail" aria-live="polite">
+        <h3 id="d-name">11×4<small>APC Sport</small></h3>
+        <dl class="stats" id="d-stats"></dl>
+        <div class="fig"><img id="d-img" src="img/eq_11x4.jpg" alt="" width="1700" height="582"></div>
+        <p class="cap">Figure from one run (seed 100). Left: where the near-optimal blades sit among the 26 training blades. Centre and right: chord and twist of every blade within 5, 10 and 20 % of the best fit (shaded), the true blade (black) and the recovered one (red dashed).</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="limits">
+    <div class="chord">
+      <h2>What the curves can’t tell you</h2>
+      <p>Chord. Thrust and efficiency barely change when a blade gets a little wider, so the test does not contain that information. The recovered c/R beats the same-diameter blade in only 3 of 27 cases. The planform is better taken from the product family.</p>
+    </div>
+    <div>
+      <h2>What comes next</h2>
+      <p>The journal paper adds a niching search that returns every equally good blade, tolerances set by the surrogate’s own uncertainty, and independent checks of the recovered geometry.</p>
+    </div>
+  </section>
+
+  <section class="connect" aria-labelledby="c-h">
+    <div>
+      <h2 id="c-h">Want the full paper?</h2>
+      <p>Leave your details and you’ll get the journal version when it is out. Happy to talk about inverse design, multi-fidelity surrogates or propeller data.</p>
+      <div class="actions"><a class="btn primary" id="formBtn2" href="#" target="_blank" rel="noopener">Sign up for the paper</a></div>
+    </div>
+    <div class="contact" id="contact">
+      <div class="mail" id="mail"></div>
+      <div class="actions" style="margin-top:0">
+        <button class="btn ghost" id="copyBtn" type="button">Copy email</button>
+        <a class="btn ghost" id="liBtn" href="#" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+      <div class="copied" id="copied" role="status"></div>
+    </div>
+  </section>
+
+  <footer>
+    <div><b>Maheswaran S</b>, Sherman C. P. Cheung, Santanu Koley</div>
+    <div>School of Engineering, RMIT University, Melbourne · Department of Mathematics, BITS Pilani, Hyderabad Campus</div>
+    <div>Data: UIUC propeller database (wind tunnel), QBlade LLFVW and BEMT simulations.</div>
+  </footer>
+</div>
+
+<script>
+const LINKS = { form: "https://forms.gle/n85kryjS6GBtTh2G8", email: "s4086558@student.rmit.edu.au", linkedin: "https://www.linkedin.com/in/maheswaran-s-498a30267/" };
+const D = {"10x10":[1.76,1.69,2.15,10.0,"10x9",2.52,0.67,1],"10x3":[0.51,0.32,0.79,4.8,"10x4",3.0,5.6,1],"10x4":[0.23,0.11,0.28,3.7,"10x3",3.0,5.29,1],"10x5":[0.2,0.15,0.3,5.1,"10x6",2.77,0.03,1],"10x6":[0.33,0.25,0.35,4.5,"10x7",2.6,0.78,1],"10x7":[1.25,0.98,1.53,4.3,"10x6",2.6,0.8,2],"10x8":[0.42,0.29,0.55,5.1,"10x9",2.71,0.05,1],"10x9":[1.5,0.59,1.51,1.6,"10x10",2.52,0.68,1],"11x3":[0.5,0.43,0.7,1.6,"11x4",2.93,0.01,1],"11x4":[0.62,0.57,0.81,1.5,"11x3",2.93,0.01,1],"11x5":[0.12,0.04,0.4,2.0,"11x6",2.44,0.02,1],"11x6":[0.15,0.12,0.17,1.5,"11x5",2.44,0.02,1],"11x7":[0.36,0.28,2.04,4.7,"11x8",2.37,0.03,1],"11x8":[0.37,0.32,0.7,1.3,"11x7",2.37,0.03,3],"11x9":[0.87,0.48,1.02,0.9,"11x8",2.09,0.01,2],"8x10":[1.02,0.86,1.04,6.9,"8x9",2.65,8.37,1],"8x4":[0.72,0.16,1.09,5.4,"8x5",3.22,0.05,1],"8x5":[0.85,0.57,0.91,0.9,"8x6",3.13,0.05,1],"8x6":[0.8,0.73,0.95,4.3,"8x7",2.63,0.08,1],"8x7":[0.92,0.21,1.0,7.7,"8x6",2.63,0.08,1],"8x8":[0.69,0.28,1.27,8.1,"8x9",2.69,0.15,1],"8x9":[0.78,0.48,0.97,1.5,"8x8",2.69,0.15,1],"9x10":[1.06,0.45,1.24,3.9,"9x9",2.23,1.93,2],"9x6":[0.22,0.21,0.3,1.7,"9x7",2.54,0.05,1],"9x7":[0.45,0.34,0.54,1.2,"9x6",2.54,0.05,1],"9x8":[1.54,0.35,1.77,7.2,"9x7",3.03,0.12,2],"9x9":[0.39,0.25,1.25,9.9,"9x10",2.23,1.87,1]};   // prop: [twist median, min, max, c/R %, same-D blade, its twist, its c/R %, basins]
+const DIAMS = [8, 9, 10, 11], PITCH = [3, 4, 5, 6, 7, 8, 9, 10];
+const lo = 0.1, hi = 1.8;
+function mix(a, b, t){ return a.map((v, i) => Math.round(v + (b[i] - v) * t)); }
+function heat(e){
+  const t = Math.min(1, Math.max(0, (e - lo) / (hi - lo)));
+  const A = [19, 10, 192], M = [124, 122, 224], Z = [231, 232, 251];
+  const c = t < .5 ? mix(A, M, t / .5) : mix(M, Z, (t - .5) / .5);
+  return { bg: "rgb(" + c.join(",") + ")", fg: t < .55 ? "#fff" : "#141436" };
+}
+const cat = document.getElementById("cat");
+let html = "<tr><th></th>" + PITCH.map(p => "<th scope='col'>" + p + "</th>").join("") + "</tr>";
+for (const d of DIAMS){
+  html += "<tr><th class='row' scope='row'>" + d + " in</th>";
+  for (const p of PITCH){
+    const k = d + "x" + p, r = D[k];
+    if (!r){ html += "<td><div class='empty'></div></td>"; continue; }
+    const h = heat(r[0]);
+    html += "<td><button class='cell' data-k='" + k + "' aria-pressed='false' aria-label='" + d + " by " + p + ", twist error " + r[0].toFixed(2) + " degrees' style='background:" + h.bg + ";color:" + h.fg + "'>" + r[0].toFixed(2) + (r[7] > 1 ? "<span class='multi'></span>" : "") + "</button></td>";
+  }
+  html += "</tr>";
+}
+html += "<tr><th></th><th colspan='8' style='padding-top:4px'>pitch (in)</th></tr>";
+cat.innerHTML = html;
+
+const nice = k => k.replace("x", "×");
+function show(k, push){
+  const r = D[k]; if (!r) return;
+  document.querySelectorAll(".cell").forEach(b => b.setAttribute("aria-pressed", b.dataset.k === k ? "true" : "false"));
+  document.getElementById("d-name").innerHTML = nice(k) + "<small>APC Sport</small>";
+  const basin = r[7] > 1 ? r[7] + " separate basins" : "one basin";
+  document.getElementById("d-stats").innerHTML =
+    "<dt>Twist error, median of 3 runs</dt><dd class='good'>" + r[0].toFixed(2) + "°</dd>" +
+    "<dt>Range over the 3 runs</dt><dd>" + r[1].toFixed(2) + "–" + r[2].toFixed(2) + "°</dd>" +
+    "<dt>Closest same-diameter blade (" + nice(r[4]) + ")</dt><dd>" + r[5].toFixed(2) + "°</dd>" +
+    "<div class='sep'></div>" +
+    "<dt>Chord (c/R) error</dt><dd class='bad'>" + r[3].toFixed(1) + " %</dd>" +
+    "<dt>Same-diameter blade, chord</dt><dd>" + r[6].toFixed(2) + " %</dd>" +
+    "<dt>Near-optimal blades form</dt><dd>" + basin + "</dd>";
+  const img = document.getElementById("d-img");
+  img.src = "img/eq_" + k + ".jpg";
+  img.alt = "Equivalence analysis for the " + nice(k) + " propeller: latent map, chord band and twist band";
+  if (push){ try { history.replaceState(null, "", "#" + k); } catch (e) {} }
+}
+cat.addEventListener("click", e => { const b = e.target.closest(".cell"); if (b) show(b.dataset.k, true); });
+function fromHash(){ const k = (location.hash || "").slice(1); show(D[k] ? k : "11x4", false); }
+window.addEventListener("hashchange", fromHash);
+fromHash();
+
+// links: hide what is not set yet
+for (const id of ["formBtn", "formBtn2"]){
+  const a = document.getElementById(id);
+  if (LINKS.form){ a.href = LINKS.form; }
+  else { a.removeAttribute("href"); a.setAttribute("aria-disabled", "true"); a.textContent = "Paper sign-up opens soon"; }
+}
+const li = document.getElementById("liBtn");
+if (LINKS.linkedin) li.href = LINKS.linkedin; else li.hidden = true;
+const mail = document.getElementById("mail"), copyBtn = document.getElementById("copyBtn"), copied = document.getElementById("copied");
+if (LINKS.email){ mail.textContent = LINKS.email; } else { mail.hidden = true; copyBtn.hidden = true; }
+copyBtn.addEventListener("click", () => {
+  const done = () => { copied.textContent = "Email copied"; };
+  try {
+    navigator.clipboard.writeText(LINKS.email).then(done, () => { selectMail(); });
+  } catch (e) { selectMail(); }
+});
+function selectMail(){
+  const r = document.createRange(); r.selectNodeContents(mail);
+  const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+  copied.textContent = "Selected. Copy it with your device’s copy command.";
+}
+</script>
+
+</body>
+</html>
